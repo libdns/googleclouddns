@@ -122,7 +122,9 @@ func (p *Provider) getCloudDNSZone(zone string) (string, error) {
 		zonesLister := p.service.ManagedZones.List(p.Project)
 		err := zonesLister.Pages(context.Background(), func(response *dns.ManagedZonesListResponse) error {
 			for _, zone := range response.ManagedZones {
-				p.zoneMap[zone.DnsName] = zone.Name
+				if zone.Visibility == "public" {
+					p.zoneMap[zone.DnsName] = zone.Name
+				}
 			}
 			return nil
 		})
