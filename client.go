@@ -83,13 +83,13 @@ func (p *Provider) setCloudDNSRecord(ctx context.Context, zone string, values []
 	for _, record := range values {
 		rrs.Rrdatas = append(rrs.Rrdatas, record.Value)
 	}
-	googleRecord, err := p.service.Projects.ManagedZones.Rrsets.Create(p.Project, gcdZone, &rrs).Context(ctx).Do()
+	googleRecord, err := p.service.ResourceRecordSets.Create(p.Project, gcdZone, &rrs).Context(ctx).Do()
 	if err != nil {
 		if gErr, ok := err.(*googleapi.Error); !ok || (gErr.Code == 409 && !patch) {
 			return nil, err
 		}
 		// Record exists and we'd really like to get this libdns.Record into the zone so how about we try patching it instead...
-		googleRecord, err = p.service.Projects.ManagedZones.Rrsets.Patch(p.Project, gcdZone, rrs.Name, rrs.Type, &rrs).Context(ctx).Do()
+		googleRecord, err = p.service.ResourceRecordSets.Patch(p.Project, gcdZone, rrs.Name, rrs.Type, &rrs).Context(ctx).Do()
 		if err != nil {
 			return nil, err
 		}
@@ -110,7 +110,7 @@ func (p *Provider) deleteCloudDNSRecord(ctx context.Context, zone, name, dnsType
 		return err
 	}
 	fullName := libdns.AbsoluteName(name, zone)
-	_, err = p.service.Projects.ManagedZones.Rrsets.Delete(p.Project, gcdZone, fullName, dnsType).Context(ctx).Do()
+	_, err = p.service.ResourceRecordSets.Delete(p.Project, gcdZone, fullName, dnsType).Context(ctx).Do()
 	return err
 }
 
