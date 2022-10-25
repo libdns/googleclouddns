@@ -18,8 +18,8 @@ type dnsMetadata struct {
 	recordType string
 }
 
-// groupRecordsByType combines libdns.Record entries into a single googleDNSRecord to ensure
-// the values are sent at the same time to Google Cloud.
+// groupRecordsByType groups libdns.Record entries by name and type to ensure multiple
+// values are sent at the same time to Google Cloud DNS.
 func (l libdnsRecords) groupRecordsByType() map[dnsMetadata]libdnsRecords {
 	gdrs := make(map[dnsMetadata]libdnsRecords)
 	for _, record := range l {
