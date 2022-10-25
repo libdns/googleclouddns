@@ -1,0 +1,698 @@
+{
+  "Initial": "IjIwMjItMTAtMjVUMTU6MzU6MTEuMzkxNzE0MjI5WiI=",
+  "Version": "0.2",
+  "Converter": {
+    "ClearHeaders": [
+      "^X-Goog-.*Encryption-Key$"
+    ],
+    "RemoveRequestHeaders": [
+      "^Authorization$",
+      "^Proxy-Authorization$",
+      "^Connection$",
+      "^Content-Type$",
+      "^Date$",
+      "^Host$",
+      "^Transfer-Encoding$",
+      "^Via$",
+      "^X-Forwarded-.*$",
+      "^X-Cloud-Trace-Context$",
+      "^X-Goog-Api-Client$",
+      "^X-Google-.*$",
+      "^X-Gfe-.*$"
+    ],
+    "RemoveResponseHeaders": [
+      "^X-Google-.*$",
+      "^X-Gfe-.*$"
+    ],
+    "ClearParams": null,
+    "RemoveParams": null
+  },
+  "Entries": [
+    {
+      "ID": "d9a7b46cdcc94c51",
+      "Request": {
+        "Method": "GET",
+        "URL": "https://dns.googleapis.com/dns/v1/projects/test-dev/managedZones?alt=json\u0026prettyPrint=false",
+        "Header": {
+          "Accept-Encoding": [
+            "gzip"
+          ],
+          "User-Agent": [
+            "google-api-go-client/0.5"
+          ]
+        },
+        "MediaType": "",
+        "BodyParts": [
+          ""
+        ]
+      },
+      "Response": {
+        "StatusCode": 200,
+        "Proto": "HTTP/1.1",
+        "ProtoMajor": 1,
+        "ProtoMinor": 1,
+        "Header": {
+          "Alt-Svc": [
+            "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\""
+          ],
+          "Cache-Control": [
+            "private"
+          ],
+          "Content-Encoding": [
+            "gzip"
+          ],
+          "Content-Type": [
+            "application/json; charset=UTF-8"
+          ],
+          "Date": [
+            "Tue, 25 Oct 2022 15:35:11 GMT"
+          ],
+          "Server": [
+            "ESF"
+          ],
+          "Vary": [
+            "Origin",
+            "X-Origin",
+            "Referer"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "X-Frame-Options": [
+            "SAMEORIGIN"
+          ],
+          "X-Xss-Protection": [
+            "0"
+          ]
+        },
+        "Body": "H4sIAAAAAAAC/4WQMW/CMBCF/8t1TSLbISRkZUUdgImKwbFd69TEF8UBqYr47z2zFKlFLGfpvU/vzm+BQQftnT1RcBHajwWCHhy00GNnQ4QMeL4/SgVSkWQXzYTjjBTYYgEtv2tZSbFZN7WoKrWqynIj2EqRBzdd3ZRWQIi56eli804Wnsj3ztKgkaMNDSn7F1CvgPIVsPoPOGdgJqfT8Ue8/00JpXIpclUeZdNK1aq6aGR94qwrRuywx/mbufHS9WhYvcfvyHsMfkvhEz20C3xhSDVwTW8PxW7/srfsCQu38zMr7jDOexdHCpG5H23rUqS8AQAA"
+      }
+    },
+    {
+      "ID": "d195112e13b02dd2",
+      "Request": {
+        "Method": "GET",
+        "URL": "https://dns.googleapis.com/dns/v1/projects/test-dev/managedZones/libdns/rrsets/caddy-validation-mark2.libdns.io./TXT?alt=json\u0026prettyPrint=false",
+        "Header": {
+          "Accept-Encoding": [
+            "gzip"
+          ],
+          "User-Agent": [
+            "google-api-go-client/0.5"
+          ]
+        },
+        "MediaType": "",
+        "BodyParts": [
+          ""
+        ]
+      },
+      "Response": {
+        "StatusCode": 200,
+        "Proto": "HTTP/1.1",
+        "ProtoMajor": 1,
+        "ProtoMinor": 1,
+        "Header": {
+          "Alt-Svc": [
+            "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\""
+          ],
+          "Cache-Control": [
+            "private"
+          ],
+          "Content-Encoding": [
+            "gzip"
+          ],
+          "Content-Type": [
+            "application/json; charset=UTF-8"
+          ],
+          "Date": [
+            "Tue, 25 Oct 2022 15:35:11 GMT"
+          ],
+          "Server": [
+            "ESF"
+          ],
+          "Vary": [
+            "Origin",
+            "X-Origin",
+            "Referer"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "X-Frame-Options": [
+            "SAMEORIGIN"
+          ],
+          "X-Xss-Protection": [
+            "0"
+          ]
+        },
+        "Body": "H4sIAAAAAAAC/z2NsQ6CQBBEf+WytkCMhQV/YIsUJmBx3q664bgleweGGP/dw8JyJjPvvSHYkaAGZxHXcrGe0SaWUI5Wh0Pl+YYhViwVFJDWaZu2l3YLyUN93Begmh82Qt1BDyczqSyMZAK9DIe76PjjmSQmPck4LzP2ANcCIj+CTbNS8yfkduCAWZKtO6UoszpqyInimRJ8vsFLsy+wAAAA"
+      }
+    },
+    {
+      "ID": "4d7f1e706279a973",
+      "Request": {
+        "Method": "DELETE",
+        "URL": "https://dns.googleapis.com/dns/v1/projects/test-dev/managedZones/libdns/rrsets/caddy-validation-mark2.libdns.io./TXT?alt=json\u0026prettyPrint=false",
+        "Header": {
+          "Accept-Encoding": [
+            "gzip"
+          ],
+          "User-Agent": [
+            "google-api-go-client/0.5"
+          ]
+        },
+        "MediaType": "",
+        "BodyParts": [
+          ""
+        ]
+      },
+      "Response": {
+        "StatusCode": 200,
+        "Proto": "HTTP/1.1",
+        "ProtoMajor": 1,
+        "ProtoMinor": 1,
+        "Header": {
+          "Alt-Svc": [
+            "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\""
+          ],
+          "Cache-Control": [
+            "private"
+          ],
+          "Content-Encoding": [
+            "gzip"
+          ],
+          "Content-Type": [
+            "application/json; charset=UTF-8"
+          ],
+          "Date": [
+            "Tue, 25 Oct 2022 15:35:11 GMT"
+          ],
+          "Server": [
+            "ESF"
+          ],
+          "Vary": [
+            "Origin",
+            "X-Origin",
+            "Referer"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "X-Frame-Options": [
+            "SAMEORIGIN"
+          ],
+          "X-Xss-Protection": [
+            "0"
+          ]
+        },
+        "Body": "H4sIAAAAAAAC/6uuBQBDv6ajAgAAAA=="
+      }
+    },
+    {
+      "ID": "1c655b3e4c14d2a6",
+      "Request": {
+        "Method": "GET",
+        "URL": "https://dns.googleapis.com/dns/v1/projects/test-dev/managedZones/libdns/rrsets/caddy-validation.libdns.io./TXT?alt=json\u0026prettyPrint=false",
+        "Header": {
+          "Accept-Encoding": [
+            "gzip"
+          ],
+          "User-Agent": [
+            "google-api-go-client/0.5"
+          ]
+        },
+        "MediaType": "",
+        "BodyParts": [
+          ""
+        ]
+      },
+      "Response": {
+        "StatusCode": 200,
+        "Proto": "HTTP/1.1",
+        "ProtoMajor": 1,
+        "ProtoMinor": 1,
+        "Header": {
+          "Alt-Svc": [
+            "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\""
+          ],
+          "Cache-Control": [
+            "private"
+          ],
+          "Content-Encoding": [
+            "gzip"
+          ],
+          "Content-Type": [
+            "application/json; charset=UTF-8"
+          ],
+          "Date": [
+            "Tue, 25 Oct 2022 15:35:12 GMT"
+          ],
+          "Server": [
+            "ESF"
+          ],
+          "Vary": [
+            "Origin",
+            "X-Origin",
+            "Referer"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "X-Frame-Options": [
+            "SAMEORIGIN"
+          ],
+          "X-Xss-Protection": [
+            "0"
+          ]
+        },
+        "Body": "H4sIAAAAAAAC/z2OXYvCMBBF/8owvnaLq+vH9k2woLBssY0ibPchzYwarImkqSLifzeK+Hgv53LPFY08MCaoJNHl4yRrTdJra+JaV2SaWNsYI/SX4wMSa/EIvsZk2I3QucDKBpM/LHEOxSxb/kzhNxMwm6xSSNcin8BimYm0KDEMS/zs9b8Gw9H4uysrRbx51XM4OnvSxGD4DNpsrDs8LcBb8DsGVduWAvwfYaO3RvrWcf5+D+1eGwqCwbjjuLGtU5yzso4K9ni7A7Y9eormAAAA"
+      }
+    },
+    {
+      "ID": "cbe401876ac01cc0",
+      "Request": {
+        "Method": "PATCH",
+        "URL": "https://dns.googleapis.com/dns/v1/projects/test-dev/managedZones/libdns/rrsets/caddy-validation.libdns.io./TXT?alt=json\u0026prettyPrint=false",
+        "Header": {
+          "Accept-Encoding": [
+            "gzip"
+          ],
+          "Content-Length": [
+            "137"
+          ],
+          "User-Agent": [
+            "google-api-go-client/0.5"
+          ]
+        },
+        "MediaType": "application/json",
+        "BodyParts": [
+          "eyJuYW1lIjoiY2FkZHktdmFsaWRhdGlvbi5saWJkbnMuaW8uIiwicnJkYXRhcyI6WyIxMjM0NTY3ODkwYWJjZGVmIiwiXCJJIHByb3ZpZGUgbmV3IGluZm9ybWF0aW9uIHRvIHRoZSBjbG91ZFwiIl0sInR0bCI6NjAsInR5cGUiOiJUWFQifQo="
+        ]
+      },
+      "Response": {
+        "StatusCode": 200,
+        "Proto": "HTTP/1.1",
+        "ProtoMajor": 1,
+        "ProtoMinor": 1,
+        "Header": {
+          "Alt-Svc": [
+            "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\""
+          ],
+          "Cache-Control": [
+            "private"
+          ],
+          "Content-Encoding": [
+            "gzip"
+          ],
+          "Content-Type": [
+            "application/json; charset=UTF-8"
+          ],
+          "Date": [
+            "Tue, 25 Oct 2022 15:35:12 GMT"
+          ],
+          "Server": [
+            "ESF"
+          ],
+          "Vary": [
+            "Origin",
+            "X-Origin",
+            "Referer"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "X-Frame-Options": [
+            "SAMEORIGIN"
+          ],
+          "X-Xss-Protection": [
+            "0"
+          ]
+        },
+        "Body": "H4sIAAAAAAAC/z2OzQ6CMBCEX6VZr0jwD5U38IocTMRD6S7aWFqyLRhifHeLB48z+TLfvMHKjqAAJRGn5SiNRhm0s6nRDVqfapdCAmHqZ6i6VHMIBoo8S4A5stJDcYUaVuvNdpfvD8dMNgqprSGiNZxEz27USMLSS2jbOu5+AhGcCA8SyrgBI3xLwOu7lWFgKv/DsX1qi9EdzyyYvBtYUUnKMZ4pwOcLjMpDd8EAAAA="
+      }
+    },
+    {
+      "ID": "4efe831d73b57cae",
+      "Request": {
+        "Method": "GET",
+        "URL": "https://dns.googleapis.com/dns/v1/projects/test-dev/managedZones/libdns/rrsets/caddy-validation.libdns.io./TXT?alt=json\u0026prettyPrint=false",
+        "Header": {
+          "Accept-Encoding": [
+            "gzip"
+          ],
+          "User-Agent": [
+            "google-api-go-client/0.5"
+          ]
+        },
+        "MediaType": "",
+        "BodyParts": [
+          ""
+        ]
+      },
+      "Response": {
+        "StatusCode": 200,
+        "Proto": "HTTP/1.1",
+        "ProtoMajor": 1,
+        "ProtoMinor": 1,
+        "Header": {
+          "Alt-Svc": [
+            "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\""
+          ],
+          "Cache-Control": [
+            "private"
+          ],
+          "Content-Encoding": [
+            "gzip"
+          ],
+          "Content-Type": [
+            "application/json; charset=UTF-8"
+          ],
+          "Date": [
+            "Tue, 25 Oct 2022 15:35:12 GMT"
+          ],
+          "Server": [
+            "ESF"
+          ],
+          "Vary": [
+            "Origin",
+            "X-Origin",
+            "Referer"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "X-Frame-Options": [
+            "SAMEORIGIN"
+          ],
+          "X-Xss-Protection": [
+            "0"
+          ]
+        },
+        "Body": "H4sIAAAAAAAC/z2OzQ6CMBCEX6VZr0jwD5U38IocTMRD6S7aWFqyLRhifHeLB48z+TLfvMHKjqAAJRGn5SiNRhm0s6nRDVqfapdCAmHqZ6i6VHMIBoo8S4A5stJDcYUaVuvNdpfvD8dMNgqprSGiNZxEz27USMLSS2jbOu5+AhGcCA8SyrgBI3xLwOu7lWFgKv/DsX1qi9EdzyyYvBtYUUnKMZ4pwOcLjMpDd8EAAAA="
+      }
+    },
+    {
+      "ID": "d21784867b0301d6",
+      "Request": {
+        "Method": "GET",
+        "URL": "https://dns.googleapis.com/dns/v1/projects/test-dev/managedZones/libdns/rrsets/caddy-validation.libdns.io./TXT?alt=json\u0026prettyPrint=false",
+        "Header": {
+          "Accept-Encoding": [
+            "gzip"
+          ],
+          "User-Agent": [
+            "google-api-go-client/0.5"
+          ]
+        },
+        "MediaType": "",
+        "BodyParts": [
+          ""
+        ]
+      },
+      "Response": {
+        "StatusCode": 200,
+        "Proto": "HTTP/1.1",
+        "ProtoMajor": 1,
+        "ProtoMinor": 1,
+        "Header": {
+          "Alt-Svc": [
+            "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\""
+          ],
+          "Cache-Control": [
+            "private"
+          ],
+          "Content-Encoding": [
+            "gzip"
+          ],
+          "Content-Type": [
+            "application/json; charset=UTF-8"
+          ],
+          "Date": [
+            "Tue, 25 Oct 2022 15:35:12 GMT"
+          ],
+          "Server": [
+            "ESF"
+          ],
+          "Vary": [
+            "Origin",
+            "X-Origin",
+            "Referer"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "X-Frame-Options": [
+            "SAMEORIGIN"
+          ],
+          "X-Xss-Protection": [
+            "0"
+          ]
+        },
+        "Body": "H4sIAAAAAAAC/z2OzQ6CMBCEX6VZr0jwD5U38IocTMRD6S7aWFqyLRhifHeLB48z+TLfvMHKjqAAJRGn5SiNRhm0s6nRDVqfapdCAmHqZ6i6VHMIBoo8S4A5stJDcYUaVuvNdpfvD8dMNgqprSGiNZxEz27USMLSS2jbOu5+AhGcCA8SyrgBI3xLwOu7lWFgKv/DsX1qi9EdzyyYvBtYUUnKMZ4pwOcLjMpDd8EAAAA="
+      }
+    },
+    {
+      "ID": "cc632856af5ad93f",
+      "Request": {
+        "Method": "GET",
+        "URL": "https://dns.googleapis.com/dns/v1/projects/test-dev/managedZones/libdns/rrsets/caddy-validation.libdns.io./TXT?alt=json\u0026prettyPrint=false",
+        "Header": {
+          "Accept-Encoding": [
+            "gzip"
+          ],
+          "User-Agent": [
+            "google-api-go-client/0.5"
+          ]
+        },
+        "MediaType": "",
+        "BodyParts": [
+          ""
+        ]
+      },
+      "Response": {
+        "StatusCode": 200,
+        "Proto": "HTTP/1.1",
+        "ProtoMajor": 1,
+        "ProtoMinor": 1,
+        "Header": {
+          "Alt-Svc": [
+            "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\""
+          ],
+          "Cache-Control": [
+            "private"
+          ],
+          "Content-Encoding": [
+            "gzip"
+          ],
+          "Content-Type": [
+            "application/json; charset=UTF-8"
+          ],
+          "Date": [
+            "Tue, 25 Oct 2022 15:35:12 GMT"
+          ],
+          "Server": [
+            "ESF"
+          ],
+          "Vary": [
+            "Origin",
+            "X-Origin",
+            "Referer"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "X-Frame-Options": [
+            "SAMEORIGIN"
+          ],
+          "X-Xss-Protection": [
+            "0"
+          ]
+        },
+        "Body": "H4sIAAAAAAAC/z2OzQ6CMBCEX6VZr0jwD5U38IocTMRD6S7aWFqyLRhifHeLB48z+TLfvMHKjqAAJRGn5SiNRhm0s6nRDVqfapdCAmHqZ6i6VHMIBoo8S4A5stJDcYUaVuvNdpfvD8dMNgqprSGiNZxEz27USMLSS2jbOu5+AhGcCA8SyrgBI3xLwOu7lWFgKv/DsX1qi9EdzyyYvBtYUUnKMZ4pwOcLjMpDd8EAAAA="
+      }
+    },
+    {
+      "ID": "cf7e7cd80a6e64f1",
+      "Request": {
+        "Method": "GET",
+        "URL": "https://dns.googleapis.com/dns/v1/projects/test-dev/managedZones/libdns/rrsets/caddy-validation.libdns.io./TXT?alt=json\u0026prettyPrint=false",
+        "Header": {
+          "Accept-Encoding": [
+            "gzip"
+          ],
+          "User-Agent": [
+            "google-api-go-client/0.5"
+          ]
+        },
+        "MediaType": "",
+        "BodyParts": [
+          ""
+        ]
+      },
+      "Response": {
+        "StatusCode": 200,
+        "Proto": "HTTP/1.1",
+        "ProtoMajor": 1,
+        "ProtoMinor": 1,
+        "Header": {
+          "Alt-Svc": [
+            "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\""
+          ],
+          "Cache-Control": [
+            "private"
+          ],
+          "Content-Encoding": [
+            "gzip"
+          ],
+          "Content-Type": [
+            "application/json; charset=UTF-8"
+          ],
+          "Date": [
+            "Tue, 25 Oct 2022 15:35:12 GMT"
+          ],
+          "Server": [
+            "ESF"
+          ],
+          "Vary": [
+            "Origin",
+            "X-Origin",
+            "Referer"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "X-Frame-Options": [
+            "SAMEORIGIN"
+          ],
+          "X-Xss-Protection": [
+            "0"
+          ]
+        },
+        "Body": "H4sIAAAAAAAC/z2OzQ6CMBCEX6VZr0jwD5U38IocTMRD6S7aWFqyLRhifHeLB48z+TLfvMHKjqAAJRGn5SiNRhm0s6nRDVqfapdCAmHqZ6i6VHMIBoo8S4A5stJDcYUaVuvNdpfvD8dMNgqprSGiNZxEz27USMLSS2jbOu5+AhGcCA8SyrgBI3xLwOu7lWFgKv/DsX1qi9EdzyyYvBtYUUnKMZ4pwOcLjMpDd8EAAAA="
+      }
+    },
+    {
+      "ID": "48613a57236f8ec9",
+      "Request": {
+        "Method": "PATCH",
+        "URL": "https://dns.googleapis.com/dns/v1/projects/test-dev/managedZones/libdns/rrsets/caddy-validation.libdns.io./TXT?alt=json\u0026prettyPrint=false",
+        "Header": {
+          "Accept-Encoding": [
+            "gzip"
+          ],
+          "Content-Length": [
+            "92"
+          ],
+          "User-Agent": [
+            "google-api-go-client/0.5"
+          ]
+        },
+        "MediaType": "application/json",
+        "BodyParts": [
+          "eyJuYW1lIjoiY2FkZHktdmFsaWRhdGlvbi5saWJkbnMuaW8uIiwicnJkYXRhcyI6WyIxMjM0NTY3ODkwYWJjZGVmIl0sInR0bCI6NjAsInR5cGUiOiJUWFQifQo="
+        ]
+      },
+      "Response": {
+        "StatusCode": 200,
+        "Proto": "HTTP/1.1",
+        "ProtoMajor": 1,
+        "ProtoMinor": 1,
+        "Header": {
+          "Alt-Svc": [
+            "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\""
+          ],
+          "Cache-Control": [
+            "private"
+          ],
+          "Content-Encoding": [
+            "gzip"
+          ],
+          "Content-Type": [
+            "application/json; charset=UTF-8"
+          ],
+          "Date": [
+            "Tue, 25 Oct 2022 15:35:12 GMT"
+          ],
+          "Server": [
+            "ESF"
+          ],
+          "Vary": [
+            "Origin",
+            "X-Origin",
+            "Referer"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "X-Frame-Options": [
+            "SAMEORIGIN"
+          ],
+          "X-Xss-Protection": [
+            "0"
+          ]
+        },
+        "Body": "H4sIAAAAAAAC/z3MywrCMBSE4XcZtzXUW9U8Ru1CsC5Oc44SjIkkqVDEdzfduJzh4//A01OgYYh5Wr7JWaZsg1fODuyTskGhQp5eM+rO3Tyyg27qCjEWSwn6gh6r9Wa7a/aHY02DYbn1wLVCsndPeYzS/m15H9ZzyZX+IkoKYzTSigmRT5Lx/QFjYb6zlAAAAA=="
+      }
+    },
+    {
+      "ID": "147579128dfdbeef",
+      "Request": {
+        "Method": "GET",
+        "URL": "https://dns.googleapis.com/dns/v1/projects/test-dev/managedZones/libdns/rrsets/caddy-validation.libdns.io./TXT?alt=json\u0026prettyPrint=false",
+        "Header": {
+          "Accept-Encoding": [
+            "gzip"
+          ],
+          "User-Agent": [
+            "google-api-go-client/0.5"
+          ]
+        },
+        "MediaType": "",
+        "BodyParts": [
+          ""
+        ]
+      },
+      "Response": {
+        "StatusCode": 200,
+        "Proto": "HTTP/1.1",
+        "ProtoMajor": 1,
+        "ProtoMinor": 1,
+        "Header": {
+          "Alt-Svc": [
+            "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\""
+          ],
+          "Cache-Control": [
+            "private"
+          ],
+          "Content-Encoding": [
+            "gzip"
+          ],
+          "Content-Type": [
+            "application/json; charset=UTF-8"
+          ],
+          "Date": [
+            "Tue, 25 Oct 2022 15:35:12 GMT"
+          ],
+          "Server": [
+            "ESF"
+          ],
+          "Vary": [
+            "Origin",
+            "X-Origin",
+            "Referer"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "X-Frame-Options": [
+            "SAMEORIGIN"
+          ],
+          "X-Xss-Protection": [
+            "0"
+          ]
+        },
+        "Body": "H4sIAAAAAAAC/z3MywrCMBSE4XcZtzXUW9U8Ru1CsC5Oc44SjIkkqVDEdzfduJzh4//A01OgYYh5Wr7JWaZsg1fODuyTskGhQp5eM+rO3Tyyg27qCjEWSwn6gh6r9Wa7a/aHY02DYbn1wLVCsndPeYzS/m15H9ZzyZX+IkoKYzTSigmRT5Lx/QFjYb6zlAAAAA=="
+      }
+    }
+  ]
+}
