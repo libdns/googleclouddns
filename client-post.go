@@ -15,7 +15,6 @@ func (p *Provider) postCloudDNSRecord(ctx context.Context, zone string, recordsT
 	if err := p.newService(ctx); err != nil {
 		return nil, err
 	}
-	zone = normalizeZone(zone);
 	gcdZone, err := p.getCloudDNSZone(zone)
 	if err != nil {
 		return nil, err
@@ -26,7 +25,7 @@ func (p *Provider) postCloudDNSRecord(ctx context.Context, zone string, recordsT
 	name := recordsToSend[0].Name
 	fullName := libdns.AbsoluteName(name, zone)
 	rrs := dns.ResourceRecordSet{
-		Name:    fullName,
+		Name:    normalizeZone(fullName),
 		Rrdatas: make([]string, 0),
 		Ttl:     int64(recordsToSend[0].TTL / time.Second),
 		Type:    recordsToSend[0].Type,
