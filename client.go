@@ -38,8 +38,8 @@ func (p *Provider) getCloudDNSZone(zone string) (string, error) {
 			for _, zone := range response.ManagedZones {
 				if zone.Visibility == "public" {
 					p.zoneMap[zone.DnsName] = zone.Name
-					if zone.DnsName[len(input)-2:len(input)-1] == "." {
-						p.zoneMap[zone.DnsName[:len(input)-1] = zone.Name
+					if zone.DnsName[len(zone.DnsName)-2:len(zone.DnsName)-1] == "." {
+						p.zoneMap[zone.DnsName[:len(zone.DnsName)-1]] = zone.Name
 					}
 				}
 			}
