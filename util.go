@@ -93,3 +93,9 @@ func normalizeZone(zone string) string {
 	}
 	return zone + "."
 }
+func normalizeHost(host string) string {
+	if host[len(host)-1:len(host)] == "." {
+		return host[:len(host)-1]
+	}
+	return host
+}

@@ -42,7 +42,7 @@ func (p *Provider) getCloudDNSRecord(ctx context.Context, zone, name, recordType
 	if err != nil {
 		return nil, err
 	}
-	fullName := libdns.AbsoluteName(name, zone)
+	fullName := normalizeHost(libdns.AbsoluteName(name, zone))
 	rrs, err := p.service.ResourceRecordSets.Get(p.Project, gcdZone, fullName, recordType).Context(ctx).Do()
 	if err != nil {
 		return nil, err
