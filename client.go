@@ -31,6 +31,7 @@ func (p *Provider) newService(ctx context.Context) error {
 // getCloudDNSZone will return the Google Cloud DNS zone name for the specified zone. The data is cached
 // for five minutes to avoid repeated calls to the GCP API servers.
 func (p *Provider) getCloudDNSZone(zone string) (string, error) {
+	normalizeZone(zone)
 	if p.zoneMap == nil || time.Since(p.zoneMapLastUpdated) > zoneMapTTL {
 		p.zoneMap = make(map[string]string)
 		zonesLister := p.service.ManagedZones.List(p.Project)
@@ -38,9 +39,6 @@ func (p *Provider) getCloudDNSZone(zone string) (string, error) {
 			for _, zone := range response.ManagedZones {
 				if zone.Visibility == "public" {
 					p.zoneMap[zone.DnsName] = zone.Name
-					if zone.DnsName[len(zone.DnsName)-1:len(zone.DnsName)] == "." {
-						p.zoneMap[zone.DnsName[:len(zone.DnsName)-1]] = zone.Name
-					}
 				}
 			}
 			return nil

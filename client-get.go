@@ -13,6 +13,7 @@ func (p *Provider) getCloudDNSRecords(ctx context.Context, zone string) ([]libdn
 	if err := p.newService(ctx); err != nil {
 		return nil, err
 	}
+	zone = normalizeZone(zone);
 
 	gcdZone, err := p.getCloudDNSZone(zone)
 	if err != nil {
@@ -37,6 +38,8 @@ func (p *Provider) getCloudDNSRecord(ctx context.Context, zone, name, recordType
 	if err := p.newService(ctx); err != nil {
 		return nil, err
 	}
+	zone = normalizeZone(zone);
+
 	gcdZone, err := p.getCloudDNSZone(zone)
 	if err != nil {
 		return nil, err

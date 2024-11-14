@@ -13,6 +13,8 @@ func (p *Provider) deleteCloudDNSRecord(ctx context.Context, zone, name, recordT
 	if err := p.newService(ctx); err != nil {
 		return nil, err
 	}
+	zone = normalizeZone(zone);
+
 	fullName := libdns.AbsoluteName(name, zone)
 	gcdZone, err := p.getCloudDNSZone(zone)
 	if err != nil {

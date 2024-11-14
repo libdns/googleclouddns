@@ -15,6 +15,7 @@ func (p *Provider) postCloudDNSRecord(ctx context.Context, zone string, recordsT
 	if err := p.newService(ctx); err != nil {
 		return nil, err
 	}
+	zone = normalizeZone(zone);
 	gcdZone, err := p.getCloudDNSZone(zone)
 	if err != nil {
 		return nil, err
