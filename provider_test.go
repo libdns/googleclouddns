@@ -31,11 +31,12 @@ func Test_GetRecords(t *testing.T) {
 			t.Fatal("expected six records back, received", len(records))
 		}
 		for _, record := range records {
-			if record.Type != "TXT" && record.Name != "hello" {
+			rr := record.RR()
+			if rr.Type != "TXT" && rr.Name != "hello" {
 				continue
 			}
-			if record.Value != expectedTXTRecordValue {
-				t.Fatalf("Expected TXT record '%s', received '%s'", expectedTXTRecordValue, record.Value)
+			if rr.Data != expectedTXTRecordValue {
+				t.Fatalf("Expected TXT record '%s', received '%s'", expectedTXTRecordValue, rr.Data)
 			}
 		}
 	})
@@ -58,23 +59,23 @@ func Test_AppendRecords(t *testing.T) {
 	}
 	defer rs.Close()
 	recordsToAppend := []libdns.Record{
-		{
-			Type:  "TXT",
-			Name:  "caddy-validation",
-			Value: `I SHOULD NOT HAVE EXTRA QUOTES`,
-			TTL:   time.Minute,
+		libdns.RR{
+			Type: "TXT",
+			Name: "caddy-validation",
+			Data: `I SHOULD NOT HAVE EXTRA QUOTES`,
+			TTL:  time.Minute,
 		},
-		{
-			Type:  "TXT",
-			Name:  "caddy-validation",
-			Value: `1234567890abcdef`,
-			TTL:   time.Minute,
+		libdns.RR{
+			Type: "TXT",
+			Name: "caddy-validation",
+			Data: `1234567890abcdef`,
+			TTL:  time.Minute,
 		},
-		{
-			Type:  "A",
-			Name:  "www",
-			Value: "127.0.0.1",
-			TTL:   time.Minute * 5,
+		libdns.RR{
+			Type: "A",
+			Name: "www",
+			Data: "127.0.0.1",
+			TTL:  time.Minute * 5,
 		},
 	}
 	t.Run("appending creates new records", func(t *testing.T) {
@@ -103,11 +104,11 @@ func Test_AppendRecords(t *testing.T) {
 	t.Run("appending creates new entries on existing records", func(t *testing.T) {
 		p.Project = testProject
 		recordsToAppend := []libdns.Record{
-			{
-				Type:  "TXT",
-				Name:  "caddy-validation",
-				Value: `I provide new information to the cloud`,
-				TTL:   time.Minute,
+			libdns.RR{
+				Type: "TXT",
+				Name: "caddy-validation",
+				Data: `I provide new information to the cloud`,
+				TTL:  time.Minute,
 			},
 		}
 		records, err := p.AppendRecords(context.Background(), testZone, recordsToAppend)
@@ -122,11 +123,11 @@ func Test_AppendRecords(t *testing.T) {
 		if err != nil {
 			t.Fatal("error retrieving TXT record for comparison", err)
 		}
-		fullRecord := append(recordsToAppend, libdns.Record{
-			Type:  "TXT",
-			Name:  "caddy-validation",
-			Value: `I provide new information to the cloud`,
-			TTL:   time.Minute,
+		fullRecord := append(recordsToAppend, libdns.RR{
+			Type: "TXT",
+			Name: "caddy-validation",
+			Data: `I provide new information to the cloud`,
+			TTL:  time.Minute,
 		},
 		)
 		compareTestData(fullRecord, txtRecords, t)
@@ -135,11 +136,11 @@ func Test_AppendRecords(t *testing.T) {
 	t.Run("appending returns no records where entries exist in existing Cloud DNS entry", func(t *testing.T) {
 		p.Project = testProject
 		recordsToAppend := []libdns.Record{
-			{
-				Type:  "TXT",
-				Name:  "caddy-validation",
-				Value: `I provide new information to the cloud`,
-				TTL:   time.Minute,
+			libdns.RR{
+				Type: "TXT",
+				Name: "caddy-validation",
+				Data: `I provide new information to the cloud`,
+				TTL:  time.Minute,
 			},
 		}
 		records, err := p.AppendRecords(context.Background(), testZone, recordsToAppend)
@@ -168,17 +169,17 @@ func Test_SetRecords(t *testing.T) {
 	t.Run("setting creates new records", func(t *testing.T) {
 		p.Project = testProject
 		recordsToCreate := []libdns.Record{
-			{
-				Type:  "TXT",
-				Name:  "caddy-validation-mark2",
-				Value: `I SHOULD NOT HAVE EXTRA QUOTES`,
-				TTL:   time.Minute,
+			libdns.RR{
+				Type: "TXT",
+				Name: "caddy-validation-mark2",
+				Data: `I SHOULD NOT HAVE EXTRA QUOTES`,
+				TTL:  time.Minute,
 			},
-			{
-				Type:  "TXT",
-				Name:  "caddy-validation-mark2",
-				Value: `1234567890abcdef`,
-				TTL:   time.Minute,
+			libdns.RR{
+				Type: "TXT",
+				Name: "caddy-validation-mark2",
+				Data: `1234567890abcdef`,
+				TTL:  time.Minute,
 			},
 		}
 		records, err := p.SetRecords(context.Background(), testZone, recordsToCreate)
@@ -199,11 +200,11 @@ func Test_SetRecords(t *testing.T) {
 	t.Run("setting overwrites existing records", func(t *testing.T) {
 		p.Project = testProject
 		recordToOverwrite := []libdns.Record{
-			{
-				Type:  "TXT",
-				Name:  "caddy-validation-mark2",
-				Value: `I provide new information to the cloud`,
-				TTL:   time.Minute,
+			libdns.RR{
+				Type: "TXT",
+				Name: "caddy-validation-mark2",
+				Data: `I provide new information to the cloud`,
+				TTL:  time.Minute,
 			},
 		}
 		records, err := p.SetRecords(context.Background(), testZone, recordToOverwrite)
@@ -231,11 +232,11 @@ func Test_DeleteRecords(t *testing.T) {
 	t.Run("delete entire record", func(t *testing.T) {
 		p.Project = testProject
 		recordToDelete := []libdns.Record{
-			{
-				Type:  "TXT",
-				Name:  "caddy-validation-mark2",
-				Value: `I provide new information to the cloud`,
-				TTL:   time.Minute,
+			libdns.RR{
+				Type: "TXT",
+				Name: "caddy-validation-mark2",
+				Data: `I provide new information to the cloud`,
+				TTL:  time.Minute,
 			},
 		}
 		records, err := p.DeleteRecords(context.Background(), testZone, recordToDelete)
@@ -245,7 +246,7 @@ func Test_DeleteRecords(t *testing.T) {
 		if len(records) != 1 {
 			t.Fatal("expected one record back, received", len(records))
 		}
-		if len(records) == 1 && (records[0].Name != recordToDelete[0].Name || records[0].Value != recordToDelete[0].Value) {
+		if len(records) == 1 && (records[0].RR().Name != recordToDelete[0].RR().Name || records[0].RR().Data != recordToDelete[0].RR().Data) {
 			t.Fatalf("The record submitted, %v, does not match the record received %v", recordToDelete[0], records[0])
 		}
 	})
@@ -253,25 +254,25 @@ func Test_DeleteRecords(t *testing.T) {
 	t.Run("deletes a single record from a multi record entry", func(t *testing.T) {
 		p.Project = testProject
 		recordToDelete := []libdns.Record{
-			{
-				Type:  "TXT",
-				Name:  "caddy-validation",
-				Value: `I SHOULD NOT HAVE EXTRA QUOTES`,
-				TTL:   time.Minute,
+			libdns.RR{
+				Type: "TXT",
+				Name: "caddy-validation",
+				Data: `I SHOULD NOT HAVE EXTRA QUOTES`,
+				TTL:  time.Minute,
 			},
 		}
 		recordCleaned := []libdns.Record{
-			{
-				Type:  "TXT",
-				Name:  "caddy-validation",
-				Value: `I provide new information to the cloud`,
-				TTL:   time.Minute,
+			libdns.RR{
+				Type: "TXT",
+				Name: "caddy-validation",
+				Data: `I provide new information to the cloud`,
+				TTL:  time.Minute,
 			},
-			{
-				Type:  "TXT",
-				Name:  "caddy-validation",
-				Value: `1234567890abcdef`,
-				TTL:   time.Minute,
+			libdns.RR{
+				Type: "TXT",
+				Name: "caddy-validation",
+				Data: `1234567890abcdef`,
+				TTL:  time.Minute,
 			},
 		}
 		records, err := p.DeleteRecords(context.Background(), testZone, recordToDelete)
@@ -292,25 +293,25 @@ func Test_DeleteRecords(t *testing.T) {
 	t.Run("deletes no records when a non-existent one is specified", func(t *testing.T) {
 		p.Project = testProject
 		recordToDelete := []libdns.Record{
-			{
-				Type:  "TXT",
-				Name:  "caddy-validation",
-				Value: `I SHOULD NOT HAVE EXTRA QUOTES`,
-				TTL:   time.Minute,
+			libdns.RR{
+				Type: "TXT",
+				Name: "caddy-validation",
+				Data: `I SHOULD NOT HAVE EXTRA QUOTES`,
+				TTL:  time.Minute,
 			},
 		}
 		recordCleaned := []libdns.Record{
-			{
-				Type:  "TXT",
-				Name:  "caddy-validation",
-				Value: `I provide new information to the cloud`,
-				TTL:   time.Minute,
+			libdns.RR{
+				Type: "TXT",
+				Name: "caddy-validation",
+				Data: `I provide new information to the cloud`,
+				TTL:  time.Minute,
 			},
-			{
-				Type:  "TXT",
-				Name:  "caddy-validation",
-				Value: `1234567890abcdef`,
-				TTL:   time.Minute,
+			libdns.RR{
+				Type: "TXT",
+				Name: "caddy-validation",
+				Data: `1234567890abcdef`,
+				TTL:  time.Minute,
 			},
 		}
 		records, err := p.DeleteRecords(context.Background(), testZone, recordToDelete)
@@ -330,25 +331,25 @@ func Test_DeleteRecords(t *testing.T) {
 	t.Run("deletes one record when two are specified", func(t *testing.T) {
 		p.Project = testProject
 		recordToDelete := []libdns.Record{
-			{
-				Type:  "TXT",
-				Name:  "caddy-validation",
-				Value: `I SHOULD NOT HAVE EXTRA QUOTES`,
-				TTL:   time.Minute,
+			libdns.RR{
+				Type: "TXT",
+				Name: "caddy-validation",
+				Data: `I SHOULD NOT HAVE EXTRA QUOTES`,
+				TTL:  time.Minute,
 			},
-			{
-				Type:  "TXT",
-				Name:  "caddy-validation",
-				Value: `I provide new information to the cloud`,
-				TTL:   time.Minute,
+			libdns.RR{
+				Type: "TXT",
+				Name: "caddy-validation",
+				Data: `I provide new information to the cloud`,
+				TTL:  time.Minute,
 			},
 		}
 		recordCleaned := []libdns.Record{
-			{
-				Type:  "TXT",
-				Name:  "caddy-validation",
-				Value: `1234567890abcdef`,
-				TTL:   time.Minute,
+			libdns.RR{
+				Type: "TXT",
+				Name: "caddy-validation",
+				Data: `1234567890abcdef`,
+				TTL:  time.Minute,
 			},
 		}
 		records, err := p.DeleteRecords(context.Background(), testZone, recordToDelete)
@@ -375,19 +376,19 @@ func Test_EndToEnd(t *testing.T) {
 	defer rs.Close()
 	p.Project = testProject
 	requestOne := []libdns.Record{
-		{
-			Type:  "TXT",
-			Name:  "_acme-challenge",
-			Value: `1234567890abcdef`,
-			TTL:   0,
+		libdns.RR{
+			Type: "TXT",
+			Name: "_acme-challenge",
+			Data: `1234567890abcdef`,
+			TTL:  0,
 		},
 	}
 	requestTwo := []libdns.Record{
-		{
-			Type:  "TXT",
-			Name:  "_acme-challenge",
-			Value: `fedcba0987654321`,
-			TTL:   0,
+		libdns.RR{
+			Type: "TXT",
+			Name: "_acme-challenge",
+			Data: `fedcba0987654321`,
+			TTL:  0,
 		},
 	}
 	appendedRecords, err := p.AppendRecords(context.Background(), testZone, requestOne)
