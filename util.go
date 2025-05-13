@@ -24,8 +24,8 @@ func (l libdnsRecords) groupRecordsByType() map[dnsMetadata]libdnsRecords {
 	gdrs := make(map[dnsMetadata]libdnsRecords)
 	for _, record := range l {
 		dnsRecord := dnsMetadata{
-			name:       record.Name,
-			recordType: record.Type,
+			name:       record.RR().Name,
+			recordType: record.RR().Type,
 		}
 		if gdr, ok := gdrs[dnsRecord]; !ok {
 			gdrs[dnsRecord] = libdnsRecords{record}
@@ -37,10 +37,12 @@ func (l libdnsRecords) groupRecordsByType() map[dnsMetadata]libdnsRecords {
 }
 
 // hasRecord returns if this set of records contains the specified record. Only the name,
-// type, and value are compared; the TTL is ignored.
+// type, and data/value are compared; the TTL is ignored.
 func (l libdnsRecords) hasRecord(record libdns.Record) bool {
+	rr := record.RR()
 	for _, existingRecord := range l {
-		if record.Name == existingRecord.Name && record.Type == existingRecord.Type && record.Value == existingRecord.Value {
+		er := existingRecord.RR()
+		if rr.Name == er.Name && rr.Type == er.Type && rr.Data == er.Data {
 			return true
 		}
 	}
@@ -59,7 +61,7 @@ func (l libdnsRecords) doesNotHaveRecord(record libdns.Record) bool {
 func (l libdnsRecords) prepValuesForCloudDNS() []string {
 	values := make([]string, 0)
 	for _, record := range l {
-		value := record.Value
+		value := record.RR().Data
 		if strings.Contains(value, " ") {
 			//ensure we quote a value with spaces but do not double quote
 			value = fmt.Sprintf(`"%s"`, strings.Trim(value, `"`))
@@ -77,11 +79,12 @@ func convertToLibDNS(googleRecord *dns.ResourceRecordSet, zone string) libdnsRec
 	for _, value := range googleRecord.Rrdatas {
 		// there can be multiple values per record  so
 		// let's treat each one as a separate libdns Record
-		record := libdns.Record{
-			Type:  googleRecord.Type,
-			Name:  libdns.RelativeName(googleRecord.Name, zone),
-			Value: strings.Trim(value, `"`),
-			TTL:   time.Duration(googleRecord.Ttl) * time.Second,
+		// TODO: switch on `value.Type` here to populate proper `libdns` type of RR
+		record := libdns.RR{
+			Type: googleRecord.Type,
+			Name: libdns.RelativeName(googleRecord.Name, zone),
+			Data: strings.Trim(value, `"`),
+			TTL:  time.Duration(googleRecord.Ttl) * time.Second,
 		}
 		records = append(records, record)
 	}

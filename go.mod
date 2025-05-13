@@ -4,7 +4,7 @@ go 1.15
 
 require (
 	cloud.google.com/go v0.104.0
-	github.com/libdns/libdns v0.2.1
+	github.com/libdns/libdns v1.0.0
 	golang.org/x/oauth2 v0.1.0
 	google.golang.org/api v0.100.0
 )

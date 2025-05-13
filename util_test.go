@@ -19,7 +19,7 @@ func compareTestData(test, results []libdns.Record, t *testing.T) {
 	for _, testEntry := range test {
 		foundResult := false
 		for _, resultEntry := range results {
-			if testEntry == resultEntry {
+			if testEntry.RR() == resultEntry.RR() {
 				foundResult = true
 			}
 		}
