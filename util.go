@@ -74,19 +74,24 @@ func (l libdnsRecords) prepValuesForCloudDNS() []string {
 
 // convertToLibDNS takes Cloud DNS record set and converts it into a set of libdns
 // records. Note that this will remove the quotes around a value.
-func convertToLibDNS(googleRecord *dns.ResourceRecordSet, zone string) libdnsRecords {
+func convertToLibDNS(googleRecord *dns.ResourceRecordSet, zone string) (libdnsRecords, error) {
 	records := make([]libdns.Record, 0)
 	for _, value := range googleRecord.Rrdatas {
 		// there can be multiple values per record  so
 		// let's treat each one as a separate libdns Record
-		// TODO: switch on `value.Type` here to populate proper `libdns` type of RR
-		record := libdns.RR{
+
+		record, err := libdns.RR{
 			Type: googleRecord.Type,
 			Name: libdns.RelativeName(googleRecord.Name, zone),
 			Data: strings.Trim(value, `"`),
 			TTL:  time.Duration(googleRecord.Ttl) * time.Second,
+		}.Parse()
+
+		if err != nil {
+			return nil, fmt.Errorf("error parsing record of type '%s': %w", googleRecord.Type, err)
 		}
+
 		records = append(records, record)
 	}
-	return records
+	return records, nil
 }

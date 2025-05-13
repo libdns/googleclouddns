@@ -2,6 +2,7 @@ package googleclouddns
 
 import (
 	"context"
+	"net/netip"
 	"testing"
 	"time"
 
@@ -20,7 +21,7 @@ func Test_GetRecords(t *testing.T) {
 		t.Fatal(err)
 	}
 	defer rs.Close()
-	t.Run("retrieve existing records", func(t *testing.T) {
+	t.Run("retrieve existing records and parse to rich type", func(t *testing.T) {
 		expectedTXTRecordData := `Hi there! This is a TXT record!`
 		p.Project = testProject
 		records, err := p.GetRecords(context.Background(), testZone)
@@ -30,14 +31,23 @@ func Test_GetRecords(t *testing.T) {
 		if len(records) != 6 {
 			t.Fatal("expected six records back, received", len(records))
 		}
+
+		found := false
+		expectedName := "hello"
 		for _, record := range records {
-			rr := record.RR()
-			if rr.Type != "TXT" && rr.Name != "hello" {
-				continue
+			switch r := record.(type) {
+			case libdns.TXT:
+				found = r.Name == expectedName
+				if found && r.Text != expectedTXTRecordData {
+					t.Fatalf("Expected TXT record '%s', received '%s'", expectedTXTRecordData, r.Text)
+				}
+			default:
+				continue // Redundant but be explicit
 			}
-			if rr.Data != expectedTXTRecordData {
-				t.Fatalf("Expected TXT record '%s', received '%s'", expectedTXTRecordData, rr.Data)
-			}
+		}
+
+		if !found {
+			t.Fatalf("Expected TXT record named '%s', found none", expectedName)
 		}
 	})
 	t.Run("attempt to request non-existent zone", func(t *testing.T) {
@@ -59,22 +69,19 @@ func Test_AppendRecords(t *testing.T) {
 	}
 	defer rs.Close()
 	recordsToAppend := []libdns.Record{
-		libdns.RR{
-			Type: "TXT",
+		libdns.TXT{
 			Name: "caddy-validation",
-			Data: `I SHOULD NOT HAVE EXTRA QUOTES`,
+			Text: `I SHOULD NOT HAVE EXTRA QUOTES`,
 			TTL:  time.Minute,
 		},
-		libdns.RR{
-			Type: "TXT",
+		libdns.TXT{
 			Name: "caddy-validation",
-			Data: `1234567890abcdef`,
+			Text: `1234567890abcdef`,
 			TTL:  time.Minute,
 		},
-		libdns.RR{
-			Type: "A",
+		libdns.Address{
 			Name: "www",
-			Data: "127.0.0.1",
+			IP:   netip.MustParseAddr("127.0.0.1"),
 			TTL:  time.Minute * 5,
 		},
 	}
@@ -104,10 +111,9 @@ func Test_AppendRecords(t *testing.T) {
 	t.Run("appending creates new entries on existing records", func(t *testing.T) {
 		p.Project = testProject
 		recordsToAppend := []libdns.Record{
-			libdns.RR{
-				Type: "TXT",
+			libdns.TXT{
 				Name: "caddy-validation",
-				Data: `I provide new information to the cloud`,
+				Text: `I provide new information to the cloud`,
 				TTL:  time.Minute,
 			},
 		}
@@ -123,10 +129,9 @@ func Test_AppendRecords(t *testing.T) {
 		if err != nil {
 			t.Fatal("error retrieving TXT record for comparison", err)
 		}
-		fullRecord := append(recordsToAppend, libdns.RR{
-			Type: "TXT",
+		fullRecord := append(recordsToAppend, libdns.TXT{
 			Name: "caddy-validation",
-			Data: `I provide new information to the cloud`,
+			Text: `I provide new information to the cloud`,
 			TTL:  time.Minute,
 		},
 		)
@@ -136,10 +141,9 @@ func Test_AppendRecords(t *testing.T) {
 	t.Run("appending returns no records where entries exist in existing Cloud DNS entry", func(t *testing.T) {
 		p.Project = testProject
 		recordsToAppend := []libdns.Record{
-			libdns.RR{
-				Type: "TXT",
+			libdns.TXT{
 				Name: "caddy-validation",
-				Data: `I provide new information to the cloud`,
+				Text: `I provide new information to the cloud`,
 				TTL:  time.Minute,
 			},
 		}
@@ -169,16 +173,14 @@ func Test_SetRecords(t *testing.T) {
 	t.Run("setting creates new records", func(t *testing.T) {
 		p.Project = testProject
 		recordsToCreate := []libdns.Record{
-			libdns.RR{
-				Type: "TXT",
+			libdns.TXT{
 				Name: "caddy-validation-mark2",
-				Data: `I SHOULD NOT HAVE EXTRA QUOTES`,
+				Text: `I SHOULD NOT HAVE EXTRA QUOTES`,
 				TTL:  time.Minute,
 			},
-			libdns.RR{
-				Type: "TXT",
+			libdns.TXT{
 				Name: "caddy-validation-mark2",
-				Data: `1234567890abcdef`,
+				Text: `1234567890abcdef`,
 				TTL:  time.Minute,
 			},
 		}
@@ -200,10 +202,9 @@ func Test_SetRecords(t *testing.T) {
 	t.Run("setting overwrites existing records", func(t *testing.T) {
 		p.Project = testProject
 		recordsToOverwrite := []libdns.Record{
-			libdns.RR{
-				Type: "TXT",
+			libdns.TXT{
 				Name: "caddy-validation-mark2",
-				Data: `I provide new information to the cloud`,
+				Text: `I provide new information to the cloud`,
 				TTL:  time.Minute,
 			},
 		}
@@ -232,10 +233,9 @@ func Test_DeleteRecords(t *testing.T) {
 	t.Run("delete entire record", func(t *testing.T) {
 		p.Project = testProject
 		recordsToDelete := []libdns.Record{
-			libdns.RR{
-				Type: "TXT",
+			libdns.TXT{
 				Name: "caddy-validation-mark2",
-				Data: `I provide new information to the cloud`,
+				Text: `I provide new information to the cloud`,
 				TTL:  time.Minute,
 			},
 		}
@@ -256,24 +256,21 @@ func Test_DeleteRecords(t *testing.T) {
 	t.Run("deletes a single record from a multi record entry", func(t *testing.T) {
 		p.Project = testProject
 		recordsToDelete := []libdns.Record{
-			libdns.RR{
-				Type: "TXT",
+			libdns.TXT{
 				Name: "caddy-validation",
-				Data: `I SHOULD NOT HAVE EXTRA QUOTES`,
+				Text: `I SHOULD NOT HAVE EXTRA QUOTES`,
 				TTL:  time.Minute,
 			},
 		}
 		recordsCleaned := []libdns.Record{
-			libdns.RR{
-				Type: "TXT",
+			libdns.TXT{
 				Name: "caddy-validation",
-				Data: `I provide new information to the cloud`,
+				Text: `I provide new information to the cloud`,
 				TTL:  time.Minute,
 			},
-			libdns.RR{
-				Type: "TXT",
+			libdns.TXT{
 				Name: "caddy-validation",
-				Data: `1234567890abcdef`,
+				Text: `1234567890abcdef`,
 				TTL:  time.Minute,
 			},
 		}
@@ -295,24 +292,21 @@ func Test_DeleteRecords(t *testing.T) {
 	t.Run("deletes no records when a non-existent one is specified", func(t *testing.T) {
 		p.Project = testProject
 		recordsToDelete := []libdns.Record{
-			libdns.RR{
-				Type: "TXT",
+			libdns.TXT{
 				Name: "caddy-validation",
-				Data: `I SHOULD NOT HAVE EXTRA QUOTES`,
+				Text: `I SHOULD NOT HAVE EXTRA QUOTES`,
 				TTL:  time.Minute,
 			},
 		}
 		recordsCleaned := []libdns.Record{
-			libdns.RR{
-				Type: "TXT",
+			libdns.TXT{
 				Name: "caddy-validation",
-				Data: `I provide new information to the cloud`,
+				Text: `I provide new information to the cloud`,
 				TTL:  time.Minute,
 			},
-			libdns.RR{
-				Type: "TXT",
+			libdns.TXT{
 				Name: "caddy-validation",
-				Data: `1234567890abcdef`,
+				Text: `1234567890abcdef`,
 				TTL:  time.Minute,
 			},
 		}
@@ -333,24 +327,21 @@ func Test_DeleteRecords(t *testing.T) {
 	t.Run("deletes one record when two are specified", func(t *testing.T) {
 		p.Project = testProject
 		recordsToDelete := []libdns.Record{
-			libdns.RR{
-				Type: "TXT",
+			libdns.TXT{
 				Name: "caddy-validation",
-				Data: `I SHOULD NOT HAVE EXTRA QUOTES`,
+				Text: `I SHOULD NOT HAVE EXTRA QUOTES`,
 				TTL:  time.Minute,
 			},
-			libdns.RR{
-				Type: "TXT",
+			libdns.TXT{
 				Name: "caddy-validation",
-				Data: `I provide new information to the cloud`,
+				Text: `I provide new information to the cloud`,
 				TTL:  time.Minute,
 			},
 		}
 		recordsCleaned := []libdns.Record{
-			libdns.RR{
-				Type: "TXT",
+			libdns.TXT{
 				Name: "caddy-validation",
-				Data: `1234567890abcdef`,
+				Text: `1234567890abcdef`,
 				TTL:  time.Minute,
 			},
 		}
@@ -378,18 +369,16 @@ func Test_EndToEnd(t *testing.T) {
 	defer rs.Close()
 	p.Project = testProject
 	requestsOne := []libdns.Record{
-		libdns.RR{
-			Type: "TXT",
+		libdns.TXT{
 			Name: "_acme-challenge",
-			Data: `1234567890abcdef`,
+			Text: `1234567890abcdef`,
 			TTL:  0,
 		},
 	}
 	requestsTwo := []libdns.Record{
-		libdns.RR{
-			Type: "TXT",
+		libdns.TXT{
 			Name: "_acme-challenge",
-			Data: `fedcba0987654321`,
+			Text: `fedcba0987654321`,
 			TTL:  0,
 		},
 	}

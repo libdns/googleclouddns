@@ -43,5 +43,5 @@ func (p *Provider) postCloudDNSRecord(ctx context.Context, zone string, recordsT
 			return nil, err
 		}
 	}
-	return convertToLibDNS(googleRecord, zone), nil
+	return convertToLibDNS(googleRecord, zone)
 }
