@@ -48,7 +48,14 @@ func (l libdnsRecords) hasRecord(record libdns.Record) bool {
 	}
 	return false
 }
-
+func contains(arr []string, value string) bool {
+    for _, v := range arr {
+        if v == value {
+            return true
+        }
+    }
+    return false
+}
 // doesNotHaveRecords returns true if this set of records does not contain the specified
 // record. Only the name, type, and value are compared; the TTL is ignored.
 func (l libdnsRecords) doesNotHaveRecord(record libdns.Record) bool {
@@ -66,7 +73,9 @@ func (l libdnsRecords) prepValuesForCloudDNS() []string {
 			//ensure we quote a value with spaces but do not double quote
 			value = fmt.Sprintf(`"%s"`, strings.Trim(value, `"`))
 		}
-		values = append(values, value)
+		if !contains(values, value) {
+			values = append(values, value)
+		}
 
 	}
 	return values
@@ -94,4 +103,16 @@ func convertToLibDNS(googleRecord *dns.ResourceRecordSet, zone string) (libdnsRe
 		records = append(records, record)
 	}
 	return records, nil
+}
+func normalizeZone(zone string) string {
+	if zone[len(zone)-1:len(zone)] == "." {
+		return zone
+	}
+	return zone + "."
+}
+func normalizeHost(host string) string {
+	if host[len(host)-1:len(host)] == "." {
+		return host[:len(host)-1]
+	}
+	return host
 }
